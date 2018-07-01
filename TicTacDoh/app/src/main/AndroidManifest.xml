@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+     * Copyright (C) 2010 The Android Open Source Project
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+    
+    
+    -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.guzzardo.android.willyshmo.tictactoe3"
+android:versionCode="4"
+android:versionName="4.4" >
+
+<uses-sdk
+    android:minSdkVersion="11"
+    android:targetSdkVersion="27" />
+<!-- use min 4 to support HTC G1 for testing (no support for ListFragment) -->
+<!-- uses-sdk android:minSdkVersion="11" android:targetSdkVersion="15"/ -->
+<!-- need min 11 (Honeycomb) to support ListFragment -->
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+
+<!-- android:theme="@style/CustomTheme" -->
+
+<!-- application
+    android:name="WillyShmoApplication"    -->
+
+
+<application
+    android:name="com.guzzardo.android.willyshmo.tictactoe3.WillyShmoApplication"
+    android:allowBackup="true"
+    android:icon="@drawable/icon"
+    android:label="@string/app_name"
+    android:screenOrientation="landscape" >
+
+    <!-- android:debuggable="true" -->
+    <!-- don't forget to remove this before releasing to public! -->
+    <!-- android:name="com.guzzardo.android.willyshmo.tictactoe3.TwitterApplication" -->
+
+    <!-- activity
+        android:name="SplashScreen" -->
+
+
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.SplashScreen"
+        android:label="@string/splash_name"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyTheme" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.MainActivity"
+        android:label="@string/app_name"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyTheme" >
+        <intent-filter>
+            <action android:name="com.guzzardo.android.willyshmo.tictactoe3.MainActivity" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.RulesActivity"
+        android:label="@string/rules_name"
+        android:screenOrientation="landscape">
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.AboutActivity"
+        android:label="@string/about_name"
+        android:screenOrientation="landscape">
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.OnePlayerActivity"
+        android:label="@string/one_player_name"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyTheme" >
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.TwoPlayerActivity"
+        android:label="@string/two_player_name"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyTheme" >
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.GameActivity"
+        android:noHistory="true"
+        android:screenOrientation="landscape" />
+
+    <!-- Dialog samples -->
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.SettingsDialogs"
+        android:label="@string/settings"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyTheme" >
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.PlayOverNetwork"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyListTheme" >
+
+        <!-- use this for Twitter OAuth -->
+        <!--
+        intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="callback" android:host="thisApp" />
+        </intent-filter
+
+        -->
+    </activity>
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.PlayersOnlineActivity"
+        android:label="@string/select_player"
+        android:noHistory="true"
+        android:screenOrientation="landscape" />
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe3.PrizesAvailableActivity"
+        android:label="@string/show_prizes"
+        android:noHistory="true"
+        android:screenOrientation="landscape"
+        android:theme="@style/WillyListTheme" />
+
+    <meta-data
+        android:name="ADMOB_PUBLISHER_ID"
+        android:value="a14c4786f7a05ac" />
+
+    <activity
+        android:name="com.google.android.gms.ads.AdActivity"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+    <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+         App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
+    <!--uses-library android:name="com.google.android.vending.licensing.CHECK_LICENSE"
+        android:required="true" / -->
+
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+</application>
+
+</manifest>

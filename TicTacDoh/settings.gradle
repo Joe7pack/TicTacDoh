@@ -1,0 +1,5 @@
+include ':app'
+include ':license'
+
+project(':license').projectDir = new File(rootProject.projectDir, '/license')
+//include ':license'
