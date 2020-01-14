@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1057272108302:android:01601c149352cdef",
         "android_client_info": {
-          "package_name": "com.guzzardo.android.willyshmo.tictactoe3"
+          "package_name": "com.guzzardo.android.willyshmo.tictactoe4"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1057272108302-tbdlif3lfqnkgphr0dk69ogsk6npge64.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.guzzardo.android.willyshmo.tictactoe3",
+            "package_name": "com.guzzardo.android.willyshmo.tictactoe4",
             "certificate_hash": "49e4d465dacc111f419478aa67ee2ec45ec8b04b"
           }
         },

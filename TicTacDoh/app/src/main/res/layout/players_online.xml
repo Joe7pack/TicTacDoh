@@ -20,7 +20,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
-    <fragment class="com.guzzardo.android.willyshmo.tictactoe3.PlayersOnlineActivity$PlayersOnlineFragment"
+    <fragment class="com.guzzardo.android.willyshmo.tictactoe4.PlayersOnlineActivity$PlayersOnlineFragment"
             android:id="@+id/players_online"
             android:layout_width="match_parent" android:layout_height="match_parent" />
 </FrameLayout>

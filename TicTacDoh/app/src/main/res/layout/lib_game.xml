@@ -22,7 +22,7 @@
     >
         
     
-    <com.guzzardo.android.willyshmo.tictactoe3.library.GameView
+    <com.guzzardo.android.willyshmo.tictactoe4.library.GameView
         android:id="@+id/game_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         
-        class="com.guzzardo.android.willyshmo.tictactoe3.MyAlertDialogFragment" ></fragment  -->
+        class="com.guzzardo.android.willyshmo.tictactoe4.MyAlertDialogFragment" ></fragment  -->
     
     
 

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 15
+    compileSdkVersion 28
     //buildToolsVersion "27.0.3"
     //buildToolsVersion "28-rc2"
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion 3
-        targetSdkVersion 15
+        targetSdkVersion 28
     }
     buildTypes {
         release {
@@ -15,7 +16,6 @@ android {
             zipAlignEnabled true
         }
     }
-    buildToolsVersion '28.0.0 rc2'
     dexOptions {
         //incremental true
     }
@@ -28,5 +28,5 @@ android {
 dependencies {
     //implementation 'com.android.support:appcompat-v7:0.0.+'
     //implementation 'com.android.support:appcompat-v7:27.1.1'
-    compileOnly 'com.android.support:appcompat-v7:27.1.1'
+    //compileOnly 'com.android.support:appcompat-v7:27.1.1'
 }

@@ -22,7 +22,7 @@
     android:orientation="vertical"
     android:background="@android:color/black">
 
-    <com.guzzardo.android.willyshmo.tictactoe3.GameView
+    <com.guzzardo.android.willyshmo.tictactoe4.GameView
         android:id="@+id/game_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

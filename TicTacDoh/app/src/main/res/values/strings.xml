@@ -108,7 +108,7 @@
 	<!-- Unlicensed dialog messages -->
 	<string name="unlicensed_dialog_title">Application not licensed</string>
 	<string name="unlicensed_dialog_body">This application is not licensed. Please purchase it from Android Market.</string>
-	<string name="unlicensed_dialog_retry_body">Unable to validate license. Check to see if a network connection is available.</string>
+	<string name="unlicensed_dialog_retry_body">Unable to validate license. Have you logged onto your Google account?.</string>
 	<string name="buy_button">Buy app</string>
 	<string name="retry_button">Retry</string>
 	<string name="quit_button">Exit</string>
