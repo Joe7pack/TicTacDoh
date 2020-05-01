@@ -8,15 +8,17 @@
 
 	<!-- string name="domainName">http://www.guzzardo.com:6260</string -->
 	<!-- this is for Grails -->
-	<string name="domainName">http://player.willyshmo.com</string>
+	<string name="domainName">http://player.alterrigo.com</string>
+	<!-- string name="domainName">http://player.willyshmo.com</string -->
 	<!-- string name="domainName" translatable="false">http://willyshmo.com:8080</string --> 
 
 	<string name="RabbitMQQueuePrefix" translatable="false">test</string>
-	<string name="RabbitMQHostName" translatable="false">rabbitMq.willyshmo.com</string>
+	<string name="RabbitMQHostName" translatable="false">rabbitMq.alterrigo.com</string>
+	<!--string name="RabbitMQHostName" translatable="false">rabbitMq.willyshmo.com</string -->
 	<!--string name="RabbitMQHostName" translatable="false">24.148.41.245</string -->
 		
 	<string name="debug" translatable="false">true</string>
-	<string name="prizesAvailable" translatable="false">false</string>
+	<string name="prizesAvailable" translatable="false">true</string>
 
 	<!-- above elements need to be changed before going to production -->
     

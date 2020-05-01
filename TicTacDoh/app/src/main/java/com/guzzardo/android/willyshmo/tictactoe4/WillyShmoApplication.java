@@ -42,6 +42,16 @@ public class WillyShmoApplication extends MultiDexApplication implements Connect
     private static Resources mResources;	
     private static boolean mStartMainActivity;
     private static String mAndroidId;
+
+	public static void setWillyShmoApplicationContext(Context context) {
+		mApplicationContext = context;
+	}
+
+	public static Context getWillyShmoApplicationContext() {
+		return mApplicationContext;
+	}
+
+	private static Context mApplicationContext;
 	//private static LocationClient mLocationClient; // = new LocationClient(getApplicationContext(), this, this);
     private static GoogleApiClient mGoogleApiClient;
     
@@ -169,7 +179,11 @@ public class WillyShmoApplication extends MultiDexApplication implements Connect
     		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, WillyShmoApplication.getLocationListener());
 //    		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 //    		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-    	} catch (Exception e) {
+    	} catch (SecurityException se) {
+    		writeToLog("WillyShmoApplication", "requestLocationUpdates SecurityException encountered");
+		}
+
+    	catch (Exception e) {
     		writeToLog("WillyShmoApplication", "onConnected error: " + e.getMessage());
     	}
     }

@@ -30,8 +30,8 @@
 
         <service
             android:name=".LocationMonitoringService"
+            android:description="@string/msg_location_service_started"
             android:exported="false"/>
-
 
     </application>
 

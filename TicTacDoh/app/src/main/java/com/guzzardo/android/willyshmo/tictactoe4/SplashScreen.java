@@ -46,6 +46,10 @@ public class SplashScreen extends Activity implements ToastMessage {
         
         WillyShmoApplication.setLatitude(0);
         WillyShmoApplication.setLongitude(0);
+
+
+
+        WillyShmoApplication.setWillyShmoApplicationContext(this.getApplicationContext());
         
         if (mPrizesAvailable) {
         	new LoadPrizesTask().execute(SplashScreen.this, getApplicationContext(), getResources());

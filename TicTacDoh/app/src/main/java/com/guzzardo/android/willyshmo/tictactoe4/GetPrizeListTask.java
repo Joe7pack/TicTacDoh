@@ -16,6 +16,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import static com.guzzardo.android.willyshmo.tictactoe4.WillyShmoApplication.getWillyShmoApplicationContext;
+
 /**
  * An AsyncTask that will be used to get a list of available prizes
  */
@@ -66,7 +68,21 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
 			writeToLog("GetPrizeListTask", "onPostExecute called usersOnline: " + prizesAvailable);
 			
 			if (mStartMainActivity) {
-				mCallerActivity.startActivity(new Intent("MainActivity"));
+				//mCallerActivity.startActivity(new Intent("MainActivity"));
+
+                Context appContext = WillyShmoApplication.getWillyShmoApplicationContext();
+
+				//Intent myIntent = new Intent();
+				//myIntent.setClass()
+				//mCallerActivity.startActivity(myIntent);
+				Context willyShmoApplicationContext = getWillyShmoApplicationContext();
+				Intent myIntent = new Intent(willyShmoApplicationContext, MainActivity.class);
+				mCallerActivity.startActivity(myIntent);
+
+				//mCallerActivity.startActivity("MainActivity");
+
+
+
 				mCallerActivity.finish();
 			}
 			
