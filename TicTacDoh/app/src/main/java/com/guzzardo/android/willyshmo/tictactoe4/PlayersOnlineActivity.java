@@ -46,12 +46,12 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
     private static PlayersOnlineActivity mPlayersOnlineActivity;
     private static int mSelectedPosition = -1;
     private static RabbitMQMessageConsumer mMessageConsumer;
-    private static boolean mWaitingForOpponent = true;    
+    //private static boolean mWaitingForOpponent = true;
     private static RabbitMQPlayerResponseHandler mRabbitMQPlayerResponseHandler;
     private String mRabbitMQPlayerResponse;
-    private static String mOpponentName;
-    private static String mOpponentId;
-//    private static ListThread mWaitForOpponent;
+    //private static String mOpponentName;
+    //private static String mOpponentId;
+    //private static ListThread mWaitForOpponent;
 
     //TODO - consider saving mUserNames and mUserIds in savedInstanceState and changing AndroidManifest.PlayersOnlineActivity 
     // android:noHistory to false so that we can restore prior list when user presses back button in GameActivity
@@ -130,7 +130,7 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
     	super.onPause();
     	if (mSelectedPosition == -1) {
     		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&onlineNow=false&opponentId=0&userName=";
-    		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, this, mResources, Boolean.valueOf(false));    		
+    		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, this, mResources, false);
     	}
     }
     
@@ -228,7 +228,7 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
         @Override
         public void onPause() {
         	super.onPause();
-        	mWaitingForOpponent = false;
+        	//mWaitingForOpponent = false;
          	new DisposeRabbitMQTask().execute(mMessageConsumer, mResources, mPlayersOnlineActivity);      
         }
 
@@ -275,7 +275,7 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
 
         @Override
         public void onListItemClick(ListView l, View v, int position, long id) {
-        	mWaitingForOpponent = false;
+        	//mWaitingForOpponent = false;
             setUpClientAndServer(position);
             
    			String hostName = mResources.getString(R.string.RabbitMQHostName);
@@ -290,7 +290,8 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
 	        SharedPreferences settings = mApplicationContext.getSharedPreferences(UserPreferences.PREFS_NAME, 0);
 	        SharedPreferences.Editor editor = settings.edit();
 	        editor.putString("ga_opponent_screenName", mUserNames[which]);
-	        editor.commit();  
+	        //editor.commit();
+            editor.apply();
         	
         	Intent i = new Intent(mApplicationContext, GameActivity.class);
         	i.putExtra(GameActivity.START_SERVER, "true");
@@ -421,7 +422,8 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("ga_users_online", null);
         // Commit the edits!
-        editor.commit();  
+        //editor.commit();
+        editor.apply();
     }
     
     

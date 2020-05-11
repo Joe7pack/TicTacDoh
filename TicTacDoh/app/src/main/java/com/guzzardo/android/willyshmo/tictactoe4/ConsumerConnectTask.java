@@ -38,7 +38,12 @@ public class ConsumerConnectTask extends AsyncTask<Object, Void, Void> {
 				ConnectionFactory connectionFactory = new ConnectionFactory();
 				connectionFactory.setHost(mHostName);
 
-//				connectionFactory.setPort(5672);
+				connectionFactory.setUsername("JoeG");
+				connectionFactory.setPassword("Reese");
+				connectionFactory.setVirtualHost("test");
+
+				//int portNumber = Integer.parseInt(mResources.getString(R.string.RabbitMQPortNumber));
+				//connectionFactory.setPort(portNumber);
 				//TODO - need to determine the default connection timeout
 //				connectionFactory.setConnectionTimeout(5000);
 				connectionFactory.setConnectionTimeout(ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT); //wait forever
@@ -57,27 +62,27 @@ public class ConsumerConnectTask extends AsyncTask<Object, Void, Void> {
 		}
 		return null;
 	}
-	
-	protected void onPostExecute(Void res) {
+
+    protected void onPostExecute(Void res) {
 //		try {
 //			mChannel.queuePurge(mQueueName); // get rid of any prior messages - doesn't really work
 //			writeToLog("ConsumerConnectTask", "purging queue: " + mQueueName);
 //		} catch (Exception e) {
 //			mToastMessage.sendToastMessage(e.getMessage());
 //		}
-		
+
 		mMessageConsumer.setChannel(mChannel);
 		mMessageConsumer.setConnection(mConnection);
 		mMessageConsumer.startConsuming(mConnection, mChannel, mQueueName, mConsumer);
 //		if (mSource != null && mSource.equalsIgnoreCase("fromPlayersOnlineActivity")) {
 //			mToastMessage.setContentView(R.layout.players_online);
 //		}
-	}
-	
+		}
+
     private static void writeToLog(String filter, String msg) {
-    	if ("true".equalsIgnoreCase(mResources.getString(R.string.debug))) {
-    		Log.d(filter, msg);
-    	}
+	    if ("true".equalsIgnoreCase(mResources.getString(R.string.debug))) {
+	        Log.d(filter, msg);
+	    }
     }
 
 }

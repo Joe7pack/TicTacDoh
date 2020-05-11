@@ -22,11 +22,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+
+//import android.support.v7.app.AlertDialog;
 
 public class TwoPlayerActivity extends Activity {
 	

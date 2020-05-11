@@ -1,6 +1,9 @@
 package com.guzzardo.android.willyshmo.tictactoe4;
 
 
+import android.content.res.Resources;
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,9 +12,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
-import android.content.res.Resources;
-import android.util.Log;
 
 public class WebServerInterface { 
 	
@@ -31,7 +31,7 @@ public class WebServerInterface {
         try {
 			writeToLog("WebServerInterface", "converseWithWebServer() called");
         	URL myURL = null;
-        	if (urlToEncode == null) {
+				if (urlToEncode == null) {
         		myURL = new URL(url);
         	} else {
         		String encodedUrl = URLEncoder.encode(urlToEncode, "UTF-8");

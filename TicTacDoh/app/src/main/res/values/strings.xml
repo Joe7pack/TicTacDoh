@@ -13,7 +13,8 @@
 	<!-- string name="domainName" translatable="false">http://willyshmo.com:8080</string --> 
 
 	<string name="RabbitMQQueuePrefix" translatable="false">test</string>
-	<string name="RabbitMQHostName" translatable="false">rabbitMq.alterrigo.com</string>
+	<string name="RabbitMQHostName" translatable="false">3.16.84.32</string>
+	<string name="RabbitMQPortNumber" translatable="false">5672</string>
 	<!--string name="RabbitMQHostName" translatable="false">rabbitMq.willyshmo.com</string -->
 	<!--string name="RabbitMQHostName" translatable="false">24.148.41.245</string -->
 		

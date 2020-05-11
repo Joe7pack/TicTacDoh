@@ -32,8 +32,7 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
 		try {
 			usersOnline = WebServerInterface.converseWithWebServer(url, null, mCallerActivity, mResources);
 		} catch (Exception e) { 
-//			System.out.println(e.getMessage());
-			writeToLog("WebServerInterfaceUsersOnlineTask", "doInBackground: " + e.getMessage());			
+			writeToLog("WebServerInterfaceUsersOnlineTask", "doInBackground: " + e.getMessage());
 			mCallerActivity.sendToastMessage(e.getMessage());		
 		}
 		writeToLog("WServerInterfaceUsersOnline", "WebServerInterfaceUsersOnlineTask doInBackground called usersOnline: " + usersOnline);  		
@@ -48,9 +47,7 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
 	    	String latitude = "&latitude=" + WillyShmoApplication.getLatitude();
 	    	String longitude = "&longitude=" + WillyShmoApplication.getLongitude();
 	    	String trackingInfo = androidId + latitude + longitude;
-			
-			
-			
+
     		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + trackingInfo + "&onlineNow=true&opponentId=0&userName=";
     		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, mCallerActivity, mResources, Boolean.valueOf(false));    		
 			if (usersOnline == null) {
@@ -66,7 +63,6 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_DEBUG_LOG_RESOLUTION | Intent.FLAG_FROM_BACKGROUND );	        
 	        applicationContext.startActivity(i); // control is picked up in onCreate method 	        
 		} catch(Exception e) {
-//			System.out.println(e.getMessage());
 			writeToLog("WebServerInterfaceUsersOnlineTask", "onPostExecute exception called " + e.getMessage());
 			mCallerActivity.sendToastMessage(e.getMessage());			
     	}
@@ -77,7 +73,6 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
     		Log.d(filter, msg);
     	}
     }
-	
 }
 
 

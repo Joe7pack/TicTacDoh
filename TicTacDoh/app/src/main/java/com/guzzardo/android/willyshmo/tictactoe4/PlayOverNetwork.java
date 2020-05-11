@@ -1,21 +1,5 @@
 package com.guzzardo.android.willyshmo.tictactoe4;
 
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -42,18 +26,11 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
 //    	static final String domainName = "http://willyshmoprod.guzzardo.com"; // for Prod - link up to Grails - set to port 6360     	
     }
 
-	//TODO - need to have an option to reset Twitter Credentials
-	
     private static int mPlayer1Id;
 	private String mPlayer1Name;    
     private static Resources resources;
     public static ErrorHandler errorHandler;
-//  private InitializeOAuthResultSet initializeOAuthResults;
-//	private FinalizeOAuthResultTask finalizeOAuthResultTask;
-//	private String accessToken, accessTokenSecret, screenName, userID;
-//	private String twitterMessage; // twitterResponse;
-//	private String mOAuthInitialized, mUserId;
-    
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,20 +44,6 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
             mPlayer1Name = getIntent().getStringExtra(GameActivity.PLAYER1_NAME);
         }
         
-//        Log.d(TAG, "onCreate called accesToken: " + accessToken);        
-        
-//        if (mOAuthInitialized == null) {
-//    		try {
-//    			Log.d(TAG, "onCreate calling OAuth");      			
-//    			final TembooSession tembooSession = new TembooSession(AuthenticationValues.getTembooAccountName(), 
-//    				AuthenticationValues.getTembooAppKeyName(), AuthenticationValues.getTembooAppKeyValue());
-//    			InitializeOAuthResultTask initializeOAuthResultTask = new InitializeOAuthResultTask();
-//    			initializeOAuthResultTask.execute(this, tembooSession, getApplicationContext());
-//    		} catch (Exception e) {
-//    			sendToastMessage(e.getMessage());        	
-//    		}
-//      }
-
         if (mPlayer1Id == 0) {
         	setSharedPreferences(); 
         	addMyselfToPlayerList();
@@ -108,11 +71,6 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
         SharedPreferences settings = getSharedPreferences(UserPreferences.PREFS_NAME, MODE_PRIVATE);
         mPlayer1Id = settings.getInt(GameActivity.PLAYER1_ID, 0);
         mPlayer1Name = settings.getString(GameActivity.PLAYER1_NAME, null);
-//		accessToken = settings.getString("ga_accessToken", null);
-//		accessTokenSecret = settings.getString("ga_accessTokenSecret", null);		
-//		mScreenName = settings.getString("ga_screenName", null);		
-//		mUserId = settings.getString("ga_userID", null);	
-//		mOAuthInitialized = settings.getString("ga_initalizeOAuth", null); 		
     }
     
     private void setSharedPreferences() {
@@ -164,11 +122,6 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
 		mPlayer1Id = savedInstanceState.getInt("gn_player1_Id");
 	}    
 	
-	/**
-     * A simple utility Handler to display an error message as a Toast popup
-     * @param errorMessage
-     */
-    
     private class ErrorHandler extends Handler {
         @Override
         public void handleMessage(Message msg)
@@ -176,79 +129,6 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
     		Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
         }
     }
-    
-//	public String getTembooAccountName() {
-//		return tembooAccountName;
-//	}
-//
-//	public String getTembooAppKeyName() {
-//		return tembooAppKeyName;
-//	}
-//
-//	public String getTembooAppKeyValue() {
-//		return tembooAppKeyValue;
-//	}
-	
-//    public void setInitializeOAuthResultSet(InitializeOAuthResultSet initializeOAuthResults) {
-//    	this.initializeOAuthResults = initializeOAuthResults;
-//    }
-//    
-//    public InitializeOAuthResultSet getInitializeOAuthResultSet() {
-//    	return initializeOAuthResults;
-//    }
-//    
-//    public FinalizeOAuthResultTask getFinalizeOAuthResultTask() {
-//    	finalizeOAuthResultTask = new FinalizeOAuthResultTask();
-//    	return finalizeOAuthResultTask;
-//    }
-    
-//    public void setAccessToken(String accessToken) {
-//    	this.accessToken = accessToken;
-//    }
-//    
-//    public String getAccessToken() {
-//    	return this.accessToken;
-//    }
-//    
-//    public void setAccessTokenSecret(String accessTokenSecret) {
-//    	this.accessTokenSecret = accessTokenSecret;
-//    }
-//
-//    public String getAccessTokenSecret() {
-//    	return this.accessTokenSecret;
-//    }
-    
-//    public String getTwitterConsumerKey() {
-//    	return twitterConsumerKey;
-//    }
-//    
-//    public String getTwitterConsumerSecret() {
-//    	return twitterConsumerSecret;
-//    }
-    
-//    public String getScreenName() {
-//		return screenName;
-//	}
-//
-//	public void setScreenName(String screenName) {
-//		this.screenName = screenName;
-//	}
-//
-//	public String getUserID() {
-//		return userID;
-//	}
-//
-//	public void setUserID(String userID) {
-//		this.userID = userID;
-//	}
-    
-//	public String getTwitterMessage() {
-//		return twitterMessage;
-//	}
-//
-//	public void setTwitterMessage(String twitterMessage) {
-//		this.twitterMessage = twitterMessage;
-//	}
 
     public void sendToastMessage(String message) {
     	Message msg = PlayOverNetwork.errorHandler.obtainMessage();

@@ -10,14 +10,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
+import androidx.multidex.MultiDexApplication;
+
+//import android.support.multidex.MultiDexApplication;
+//import com.google.android.gms.common.GooglePlayServicesClient;
 //import com.google.android.gms.location.LocationClient;
 
 

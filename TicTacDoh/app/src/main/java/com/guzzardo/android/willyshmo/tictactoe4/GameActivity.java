@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +53,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class GameActivity extends Activity implements ToastMessage {
 
@@ -141,10 +142,6 @@ public class GameActivity extends Activity implements ToastMessage {
     private static int mSavedCell; //hack for saving cell selected when XO token is chosen as first move
     private static CharSequence mButtonStartText;
     
-    // default ip
-    //private static String SERVERIP; // = "10.0.2.15"; // from server side
-    //private String serverIpAddress = "10.0.2.2"; // from client side
-
     private static boolean mServerRunning, mClientRunning;
     private ClientThread mClientThread;
     private ServerThread mServerThread;
@@ -214,13 +211,8 @@ public class GameActivity extends Activity implements ToastMessage {
 	private ProgressDialog showHostWaitDialog() {
 		String opponentName = mPlayer2Name == null ? "Waiting for player to connect..." : "Waiting for " + mPlayer2Name + " to connect...";
 		String hostingDescription = mPlayer2Name == null ? "Hosting... (Ask a friend to install Willy Shmo\'s Tic Tac Toe)" : "Hosting...";
-		
-		
-//        GameView.setNetworkGame(HUMAN_VS_NETWORK);
-        mGameView.setGamePrize(); 
+        mGameView.setGamePrize();
 
-		
-		
 		return ProgressDialog.show(GameActivity.this, hostingDescription, opponentName, true, true,
 				new DialogInterface.OnCancelListener() {
 			public void onCancel(DialogInterface dialog) {
@@ -247,16 +239,12 @@ public class GameActivity extends Activity implements ToastMessage {
         mServer = Boolean.valueOf(getIntent().getStringExtra(START_SERVER));
         
         if (mServer && !mServerRunning) {
-//        	getTembooSession();
         	mPlayer1Id = getIntent().getIntExtra(PLAYER1_ID, 0);
             mServerThread = new ServerThread(); 
-            //setUpServerMessageConsumer();  
             mMessageServerConsumer = new RabbitMQMessageConsumer(GameActivity.this, resources);
             mRabbitMQServerResponseHandler = new RabbitMQServerResponseHandler();
-            
-            mRabbitMQServerResponseHandler.setRabbitMQResponse("null"); 
-            
-            
+            mRabbitMQServerResponseHandler.setRabbitMQResponse("null");
+
             setUpMessageConsumer(mMessageServerConsumer, "server", mRabbitMQServerResponseHandler); 
             mPlayer1Name = getIntent().getStringExtra(PLAYER1_NAME);
             mServerRunning = true;             
@@ -271,11 +259,8 @@ public class GameActivity extends Activity implements ToastMessage {
         	String clientOpponentId = getIntent().getStringExtra(START_CLIENT_OPPONENT_ID);
         	mPlayer2Id = clientOpponentId;
         	mClientThread = new ClientThread();
-        	//setUpClientMessageConsumer(); 
             mMessageClientConsumer = new RabbitMQMessageConsumer(GameActivity.this, resources);
             mRabbitMQClientResponseHandler = new RabbitMQClientResponseHandler();    
-            
-            
             mRabbitMQClientResponseHandler.setRabbitMQResponse("null");
             
         	setUpMessageConsumer(mMessageClientConsumer, "client", mRabbitMQClientResponseHandler);        	
@@ -340,10 +325,6 @@ public class GameActivity extends Activity implements ToastMessage {
         }
         
         mGameView.setViewDisabled(false);
-        
-//        if (null != getIntent().getStringExtra(START_FROM_PLAYER_LIST)) {
-//        	mGameStartedFromPlayerList = Boolean.valueOf(getIntent().getStringExtra(START_FROM_PLAYER_LIST));
-//        }
     }
     
     private GameView.State selectTurn(GameView.State player) {
@@ -969,7 +950,6 @@ public class GameActivity extends Activity implements ToastMessage {
     				+ mPlayer2Id + "&userName=";
         		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, GameActivity.this, resources, Boolean.valueOf(false));    
         		
-        		
                 mClientWaitDialog.dismiss();
                 mClientWaitDialog = null;
                 return true;
@@ -1149,9 +1129,6 @@ public class GameActivity extends Activity implements ToastMessage {
     protected void highlightCurrentPlayer(GameView.State player) {
     	
 //    	System.out.println("entering highlightCurrentPlayer");
-    	
-//    	String versionSDK =  android.os.Build.VERSION.SDK;
-//		int sdk = android.os.Build.VERSION.SDK_INT;
 
 		Animation anim = new AlphaAnimation(0.0f, 1.0f);
 		anim.setDuration(500); //You can manage the time of the blink with this parameter
@@ -1826,58 +1803,6 @@ public class GameActivity extends Activity implements ToastMessage {
         super.onDestroy();
         writeToLog("ClientService", "GameActivity onDestroy processed");        
     }
-    
-//    public void setTwitterApplicationResponse(String twitterResponse) {
-//    	if (twitterResponse == null) {
-//    		return;
-//    	}
-//    	
-//    	try {
-//    		if (twitterResponse.indexOf("text") < 0) {
-//    			throw new Exception(twitterResponse);
-//    		}
-//
-//    		StringBuilder responseMessage = new StringBuilder();
-//    		String jsonMessage = "{\"messageList\":" + twitterResponse + "}";
-//
-//    		JSONObject jsonObject = new JSONObject(jsonMessage);
-//    		JSONArray tokenArray = jsonObject.getJSONArray("messageList");
-//
-//    		for (int y = 0; y < tokenArray.length(); y++) {
-//    			JSONObject tokenValues = tokenArray.getJSONObject(y);
-//    			responseMessage.append(tokenValues.getString("text") + " ");
-//    		}
-//
-//    		//		mMessageFromClient = responseMessage.toString(); 
-//    		if (imServing) {
-//    			mServerThread.setMessageFromClient(responseMessage.toString());
-//    		} else {
-//    			if (mClientThread != null) {
-//    				mClientThread.setMessageFromServer(responseMessage.toString());
-//    			}
-//    		}
-//
-//    	} catch (Exception e) {
-//    		sendToastMessage(e.getMessage());
-//    	}
-//
-//    }
-
-//	private void getTwitterDirectMessages() {
-//		RetrieveTwitterDirectMessages retrieveTwitterDirectMessages = new RetrieveTwitterDirectMessages();
-//    		retrieveTwitterDirectMessages.execute(this, tembooSession);
-//	}
-	
-	
-//	private void getTembooSession() {
-//		
-//		try {
-//			tembooSession = new TembooSession(AuthenticationValues.getTembooAccountName(), 
-//    			AuthenticationValues.getTembooAppKeyName(), AuthenticationValues.getTembooAppKeyValue());
-//		} catch (Exception e) {
-//			sendToastMessage(e.getMessage());
-//		}
-//	}
 
 	protected class ServerThread extends Thread {
     	private String mMessageToClient;
@@ -1970,15 +1895,12 @@ public class GameActivity extends Activity implements ToastMessage {
             	
             	mPlayer1NetworkScore = mPlayer2NetworkScore = 0;
             	mServerThread = null;
-            	
-            	
+
 //        		String onlineNowIndicator = "";
 //        		if (!mClient) {
 //        			onlineNowIndicator = "&onlineNow=false";
 //        		}
 
-            	
-            	
         		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&onlineNow=false&playingNow=false&opponentId=0";
     			new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(false));
             	new DisposeRabbitMQTask().execute(mMessageServerConsumer, resources, GameActivity.this);      
@@ -2112,8 +2034,7 @@ public class GameActivity extends Activity implements ToastMessage {
 //        		if (!mGameStartedFromPlayerList) {
 //        			onlineNowIndicator = "&onlineNow=false";
 //        		}
-        		
-        		
+
         		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&playingNow=false&onlineNow=false&opponentId=0";
 				new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(false));
         		mPlayer1NetworkScore = mPlayer2NetworkScore = 0;

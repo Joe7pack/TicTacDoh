@@ -23,18 +23,14 @@ public class SendMessageToRabbitMQTask extends AsyncTask<Object, Void, Void> {
 			mCallingActivity = (ToastMessage)values[4];
 			mResources = (Resources)values[5];
 
-			ConnectionFactory factory = new ConnectionFactory();
-			factory.setHost(hostName);
-			
-			// my internet connection is a bit restrictive so I have use an
-			// external server
-			// which has RabbitMQ installed on it. So I use "setUsername"
-			// and "setPassword"
-			factory.setUsername("guest");
-			factory.setPassword("guest");
-			//factory.setVirtualHost("karthi");
-			factory.setPort(5672);
-			Connection connection = factory.newConnection();
+			ConnectionFactory connectionFactory = new ConnectionFactory();
+			connectionFactory.setHost(hostName);
+			connectionFactory.setUsername("JoeG");
+			connectionFactory.setPassword("Reese");
+			connectionFactory.setVirtualHost("test");
+			int portNumber = Integer.valueOf(mResources.getString(R.string.RabbitMQPortNumber));
+			connectionFactory.setPort(portNumber);
+			Connection connection = connectionFactory.newConnection();
 			Channel channel = connection.createChannel();
 			
 //			channel.exchangeDeclare(EXCHANGE_NAME, "fanout", true);

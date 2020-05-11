@@ -13,11 +13,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.guzzardo.android.willyshmo.tictactoe4.MainActivity.UserPreferences;
+
+import androidx.appcompat.app.AlertDialog;
+
+//import android.support.v7.app.AlertDialog;
 
 public class AcceptGameDialog extends DialogFragment implements ToastMessage {
 	
@@ -65,11 +68,7 @@ public class AcceptGameDialog extends DialogFragment implements ToastMessage {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-//        	.setTitle(mOpposingPlayerName + " would like to play")
-        
-        .setTitle(mOpposingPlayerName + R.string.would_like_to_play)        
-        
-        
+            .setTitle(mOpposingPlayerName + R.string.would_like_to_play)
             .setIcon(R.drawable.willy_shmo_small_icon)
             .setNegativeButton(android.R.string.no, new OnClickListener() {
                 @Override
@@ -130,7 +129,6 @@ public class AcceptGameDialog extends DialogFragment implements ToastMessage {
     }
     
     public void finish() { // to fulfill contract with ToastMessage
-    	
     }
     
     private class ErrorHandler extends Handler {
@@ -139,5 +137,4 @@ public class AcceptGameDialog extends DialogFragment implements ToastMessage {
     		Toast.makeText(mApplicationContext, (String)msg.obj, Toast.LENGTH_LONG).show();
         }
     }
-    
 }
