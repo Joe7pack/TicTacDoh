@@ -17,6 +17,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 
+import java.util.HashMap;
+
 import androidx.multidex.MultiDexApplication;
 
 //import android.support.multidex.MultiDexApplication;
@@ -35,7 +37,9 @@ public class WillyShmoApplication extends MultiDexApplication implements Connect
     private static String [] mImageHeights;
     private static String [] mPrizeDistances;
     private static String [] mPrizeUrls;
-    private static String [] mPrizeLocations;    
+    private static String [] mPrizeLocations;
+
+    private static HashMap<String, String> mConfigMap;
     
     private static double mLongitude, mLatitude;
     private static boolean mNetworkAvailable; 
@@ -63,7 +67,8 @@ public class WillyShmoApplication extends MultiDexApplication implements Connect
     	super.onCreate();
         //mLocationClient = new LocationClient(getApplicationContext(), this, this);
         mAndroidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        mResources = getResources();    
+        mResources = getResources();
+        mConfigMap = new HashMap();
     }    
 
 //	public static String[] getPrizeImages() {
@@ -294,6 +299,14 @@ public class WillyShmoApplication extends MultiDexApplication implements Connect
 
 	public static void setPrizeUrls(String[] prizeUrls) {
 		WillyShmoApplication.mPrizeUrls = prizeUrls;
+	}
+
+	public static void setConfigMap(String key, String value) {
+		mConfigMap.put(key, value);
+	}
+
+	public static String getConfigMap(String key) {
+		return (String)mConfigMap.get(key);
 	}
 
 	public static String[] getPrizeLocations() {

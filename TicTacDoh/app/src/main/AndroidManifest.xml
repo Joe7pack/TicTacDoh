@@ -138,6 +138,12 @@ android:versionName="5.5" >
         android:screenOrientation="landscape"
         android:theme="@style/WillyListTheme" />
 
+    <activity
+        android:name="com.guzzardo.android.willyshmo.tictactoe4.GetConfigurationActivity" />
+
+
+
+
     <meta-data
         android:name="ADMOB_PUBLISHER_ID"
         android:value="a14c4786f7a05ac" />

@@ -35,13 +35,18 @@ public class ConsumerConnectTask extends AsyncTask<Object, Void, Void> {
 		if (mMessageConsumer.getChannel() == null) {
 			try {
 				// Connect to broker
+
+				String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+				String userName = (String)WillyShmoApplication.getConfigMap("RabbitMQUser");
+				String password = (String)WillyShmoApplication.getConfigMap("RabbitMQPassword");
+				String virtualHost = (String)WillyShmoApplication.getConfigMap("RabbitMQVirtualHost");
+				String port = (String)WillyShmoApplication.getConfigMap("RabbitMQPort");
+
 				ConnectionFactory connectionFactory = new ConnectionFactory();
-				connectionFactory.setHost(mHostName);
-
-				connectionFactory.setUsername("JoeG");
-				connectionFactory.setPassword("Reese");
-				connectionFactory.setVirtualHost("test");
-
+				connectionFactory.setHost(hostName);
+				connectionFactory.setUsername(userName);
+				connectionFactory.setPassword(password);
+				connectionFactory.setVirtualHost(virtualHost);
 				//int portNumber = Integer.parseInt(mResources.getString(R.string.RabbitMQPortNumber));
 				//connectionFactory.setPort(portNumber);
 				//TODO - need to determine the default connection timeout

@@ -16,7 +16,7 @@ public class SendMessageToRabbitMQTask extends AsyncTask<Object, Void, Void> {
 	protected Void doInBackground(Object... values) {
 		try {
 			
-			String hostName = (String)values[0];
+			//String hostName = (String)values[0];
 			String qName = (String)values[1];
 			String exchangeName = (String)values[2];
 			String message = (String)values[3];
@@ -24,11 +24,18 @@ public class SendMessageToRabbitMQTask extends AsyncTask<Object, Void, Void> {
 			mResources = (Resources)values[5];
 
 			ConnectionFactory connectionFactory = new ConnectionFactory();
+
+			String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+			String userName = (String)WillyShmoApplication.getConfigMap("RabbitMQUser");
+			String password = (String)WillyShmoApplication.getConfigMap("RabbitMQPassword");
+			String virtualHost = (String)WillyShmoApplication.getConfigMap("RabbitMQVirtualHost");
+			String port = (String)WillyShmoApplication.getConfigMap("RabbitMQPort");
+
 			connectionFactory.setHost(hostName);
-			connectionFactory.setUsername("JoeG");
-			connectionFactory.setPassword("Reese");
-			connectionFactory.setVirtualHost("test");
-			int portNumber = Integer.valueOf(mResources.getString(R.string.RabbitMQPortNumber));
+			connectionFactory.setUsername(userName);
+			connectionFactory.setPassword(password);
+			connectionFactory.setVirtualHost(virtualHost);
+			int portNumber = Integer.valueOf(port);
 			connectionFactory.setPort(portNumber);
 			Connection connection = connectionFactory.newConnection();
 			Channel channel = connection.createChannel();

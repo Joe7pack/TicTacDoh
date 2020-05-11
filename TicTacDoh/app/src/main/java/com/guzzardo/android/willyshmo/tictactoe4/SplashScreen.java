@@ -8,12 +8,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-//import android.support.v7.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import androidx.appcompat.app.AlertDialog;
+
+//import android.support.v7.app.AlertDialog;
 
 //import android.support.multidex.MultiDex;
 
@@ -97,7 +99,19 @@ public class SplashScreen extends Activity implements ToastMessage {
         SplashThread splashThread = new SplashThread();
         splashThread.setPrizesAvailable(mPrizesAvailable);
         splashThread.start();
-        
+
+
+        //GetConfigurationValuesFromDB getConfigurationValuesFromDB = new GetConfigurationValuesFromDB();
+        //getConfigurationValuesFromDB.execute(this, getApplicationContext(), getResources());
+
+        Intent i = new Intent(this, GetConfigurationActivity.class);
+        /*
+        i.putExtra(GameActivity.START_PLAYER_HUMAN,
+                player == 1 ? GameView.State.PLAYER1.getValue() : GameView.State.PLAYER2.getValue());
+        i.putExtra(GameActivity.PLAYER1_NAME, mPlayer1Name);
+        i.putExtra(GameActivity.PLAYER2_NAME, mPlayer2Name);
+        */
+        startActivity(i);
     }
     
     @Override
