@@ -6,6 +6,8 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/textView"
+        android:gravity="top|left"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -16,5 +18,38 @@
         android:text="@string/splash_screen"
         android:textColor="@android:color/primary_text_dark"
         android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/textView"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/pBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:indeterminate="false"
+            android:max="100"
+            android:minWidth="200dp"
+            android:minHeight="50dp"
+            android:progress="0" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="20dp"
+        android:text="Start Progress"
+        android:layout_below="@+id/textView"/>
+
+
 
 </RelativeLayout>

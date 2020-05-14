@@ -60,8 +60,6 @@ public class PrizesAvailableActivity extends Activity implements ToastMessage {
             	WillyShmoApplication.getPrizeDistances(), WillyShmoApplication.getPrizeLocations(), mResources);            
     		setListAdapter(adapter);
 
-
-            
             // Check to see if we have a frame in which to embed the details
             // fragment directly in the containing UI.
             //View detailsFrame = getActivity().findViewById(R.id.details);
@@ -140,11 +138,6 @@ public class PrizesAvailableActivity extends Activity implements ToastMessage {
         //mPlayer1Name = settings.getString(GameActivity.PLAYER1_NAME, null); 
     }
     
-	/**
-     * A simple utility Handler to display an error message as a Toast popup
-     * @param errorMessage
-     */
-    
     private class ErrorHandler extends Handler {
         @Override
         public void handleMessage(Message msg)
@@ -165,8 +158,6 @@ public class PrizesAvailableActivity extends Activity implements ToastMessage {
     	msg.obj = message;
     	PrizesAvailableActivity.errorHandler.sendMessage(msg);	
 	}
-
-    
 
 }
 

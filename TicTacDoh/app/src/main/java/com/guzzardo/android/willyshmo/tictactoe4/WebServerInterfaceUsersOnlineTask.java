@@ -49,7 +49,7 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
 	    	String trackingInfo = androidId + latitude + longitude;
 
     		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + trackingInfo + "&onlineNow=true&opponentId=0&userName=";
-    		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, mCallerActivity, mResources, Boolean.valueOf(false));    		
+    		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, mCallerActivity, mResources, Boolean.FALSE);
 			if (usersOnline == null) {
 				return;
 			}
@@ -57,7 +57,7 @@ public class WebServerInterfaceUsersOnlineTask extends AsyncTask<Object, Void, S
 	        SharedPreferences.Editor editor = settings.edit();
 	        editor.putString("ga_users_online", usersOnline);
 	        // Commit the edits!
-	        editor.commit();  
+	        editor.apply();
 	        Intent i = new Intent(mCallerActivity, PlayersOnlineActivity.class);
 	        i.putExtra(GameActivity.PLAYER1_NAME, mPlayer1Name);	        
 	        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_DEBUG_LOG_RESOLUTION | Intent.FLAG_FROM_BACKGROUND );	        

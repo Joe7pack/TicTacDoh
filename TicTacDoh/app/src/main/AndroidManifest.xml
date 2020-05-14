@@ -18,9 +18,7 @@
     -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.guzzardo.android.willyshmo.tictactoe4"
-android:versionCode="5"
-android:versionName="5.5" >
+package="com.guzzardo.android.willyshmo.tictactoe4" >
 
     <!-- use min 4 to support HTC G1 for testing (no support for ListFragment) -->
 <!-- uses-sdk android:minSdkVersion="11" android:targetSdkVersion="15"/ -->
@@ -29,7 +27,7 @@ android:versionName="5.5" >
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
 <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 
 <!-- android:theme="@style/CustomTheme" -->
@@ -52,7 +50,6 @@ android:versionName="5.5" >
 
     <!-- activity
         android:name="SplashScreen" -->
-
 
     <activity
         android:name="com.guzzardo.android.willyshmo.tictactoe4.SplashScreen"

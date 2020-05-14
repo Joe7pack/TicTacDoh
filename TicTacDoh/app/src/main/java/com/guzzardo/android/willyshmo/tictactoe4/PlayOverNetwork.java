@@ -44,10 +44,6 @@ public class PlayOverNetwork extends Activity implements ToastMessage {
             mPlayer1Name = getIntent().getStringExtra(GameActivity.PLAYER1_NAME);
         }
 
-        //GetConfigurationValuesFromDB getConfigurationValuesFromDB = new GetConfigurationValuesFromDB();
-        //getConfigurationValuesFromDB.execute(this, getApplicationContext(), resources);
-
-
         if (mPlayer1Id == 0) {
         	setSharedPreferences(); 
         	addMyselfToPlayerList();

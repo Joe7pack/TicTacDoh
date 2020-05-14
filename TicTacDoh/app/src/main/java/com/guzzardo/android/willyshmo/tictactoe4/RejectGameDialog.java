@@ -9,10 +9,12 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-//import android.support.v7.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+
+//import android.support.v7.app.AlertDialog;
 
 public class RejectGameDialog extends DialogFragment implements ToastMessage {
 	
@@ -55,8 +57,6 @@ public class RejectGameDialog extends DialogFragment implements ToastMessage {
         mResources = resources;
     }
 
-
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
@@ -76,10 +76,12 @@ public class RejectGameDialog extends DialogFragment implements ToastMessage {
     }
     
     private void acknowledgeRejection() {
-    	String hostName = mResources.getString(R.string.RabbitMQHostName);
-		String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + "startGame"  + "-" + mOpposingPlayerId;
+    	//String hostName = mResources.getString(R.string.RabbitMQHostName);
+        String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+        String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+		String qName = queuePrefix + "-" + "startGame"  + "-" + mOpposingPlayerId;
 		String messageToOpponent = "refused," + mPlayerName + ","  + mPlayerId;
-		new SendMessageToRabbitMQTask().execute(hostName, qName, null, messageToOpponent, this, mResources);  
+		new SendMessageToRabbitMQTask().execute(hostName, qName, null, messageToOpponent, this, mResources);
 
     }
     
@@ -89,8 +91,7 @@ public class RejectGameDialog extends DialogFragment implements ToastMessage {
     	}
     }
     
-    public void finish() {
-    }
+    public void finish() { }
     
     public void sendToastMessage(String message) {
     	Message msg = RejectGameDialog.errorHandler.obtainMessage();
@@ -100,15 +101,12 @@ public class RejectGameDialog extends DialogFragment implements ToastMessage {
     
     private class ErrorHandler extends Handler {
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
     		Toast.makeText(mApplicationContext, (String)msg.obj, Toast.LENGTH_LONG).show();
         }
     }
     
-    public void setContentView(int view) {
-
-    }
+    public void setContentView(int view) { }
     
 }
 

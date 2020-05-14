@@ -1,8 +1,5 @@
 package com.guzzardo.android.willyshmo.tictactoe4;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -11,9 +8,9 @@ import android.util.Log;
 
 import com.guzzardo.android.willyshmo.tictactoe4.MainActivity.UserPreferences;
 
-/**
- * An AsyncTask that will be used to finalize Temboo / Twitter OAuth 
- */
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class WebServerInterfaceNewPlayerTask extends AsyncTask<Object, Void, Integer> {
 
 	private PlayOverNetwork mCallerActivity;
@@ -54,7 +51,7 @@ public class WebServerInterfaceNewPlayerTask extends AsyncTask<Object, Void, Int
 	        SharedPreferences.Editor editor = settings.edit();
 	        editor.putInt(GameActivity.PLAYER1_ID, player1Id);
 	        // Commit the edits!
-	        editor.commit(); 
+	        editor.apply();
         	WebServerInterfaceUsersOnlineTask webServerInterfaceUsersOnlineTask = new WebServerInterfaceUsersOnlineTask();
         	webServerInterfaceUsersOnlineTask.execute(mCallerActivity, mApplicationContext, mPlayer1Name, mResources, player1Id);
 		} catch (Exception e) {

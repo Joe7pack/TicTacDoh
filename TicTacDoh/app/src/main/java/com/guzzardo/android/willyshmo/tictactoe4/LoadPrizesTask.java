@@ -36,7 +36,6 @@ public class LoadPrizesTask extends AsyncTask<Object, Void, Integer> implements 
     private LocationRequest mLocationRequest;
     // Global variable to hold the current location
     Location mCurrentLocation;
-    //LocationClient mLocationClient;
     String mPlayErrorMessage;
 
 	@Override
@@ -46,21 +45,15 @@ public class LoadPrizesTask extends AsyncTask<Object, Void, Integer> implements 
     	mResources = (Resources)params[2];  
     	WillyShmoApplication.setCallerActivity(mCallerActivity);
 
-
         mGoogleApiClient = new GoogleApiClient.Builder(mApplicationContext)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
-    	//mLocationClient = new LocationClient(mApplicationContext, this, this);
-	    //int isPlayAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mCallerActivity);
-
         GoogleApiAvailability api = GoogleApiAvailability.getInstance();
         int isPlayAvailable = api.isGooglePlayServicesAvailable(mApplicationContext);
 
-//	    mPlayErrorMessage = "test message";
-	    
 	    switch (isPlayAvailable) {
 	    	case ConnectionResult.DEVELOPER_ERROR:
 	    		mPlayErrorMessage = "The application is misconfigured.";
@@ -98,17 +91,14 @@ public class LoadPrizesTask extends AsyncTask<Object, Void, Integer> implements 
 	    }
 	    
 	    if (mPlayErrorMessage != null) {
-	    	return Integer.valueOf(isPlayAvailable);
+	    	return isPlayAvailable;
 	    }
 	    
 	    if (isPlayAvailable == ConnectionResult.SUCCESS) {
 	    	try {
                 writeToLog("LoadPrizesTask", "isPlayAvailable successful!");
                 mGoogleApiClient.connect();
-	    		//mLocationClient.connect();
                 WillyShmoApplication.setGoogleApiClient(mGoogleApiClient);
-                //WillyShmoApplication.getLocationListener().connect();
-	    		//WillyShmoApplication.getLocationClient(true).connect();
                 WillyShmoApplication.setMainStarted(true);
 	    	} catch (Exception e) {
 	    		mCallerActivity.sendToastMessage(e.getMessage());
@@ -119,11 +109,12 @@ public class LoadPrizesTask extends AsyncTask<Object, Void, Integer> implements 
 	
 	protected void onPostExecute(Integer isPlayAvailable) {
 		try {
-			if (Integer.valueOf(isPlayAvailable) != ConnectionResult.SUCCESS) {
+			if (isPlayAvailable != ConnectionResult.SUCCESS) {
 				mCallerActivity.showGooglePlayError(isPlayAvailable, mPlayErrorMessage);
 				writeToLog("LoadPrizesTask", "onPostExecute called play error: " + mPlayErrorMessage);
 			} else {
-	    		mCallerActivity.startWaitForPrizesPopup();
+	    		//mCallerActivity.startWaitForPrizesPopup();
+				mCallerActivity.setAsyncMessage2();
 				writeToLog("LoadPrizesTask", "onPostExecute called, waiting for prizes to load from server");
 			}
 		} catch(Exception e) {
@@ -232,8 +223,6 @@ public class LoadPrizesTask extends AsyncTask<Object, Void, Integer> implements 
     public void onLocationChanged(Location location) {
         writeToLog("LoadPrizesTask", "onLocationChanged called, new location latitude: " + location.getLatitude() + " longitude: " + location.getLongitude());
     }
-
-
 
 }
 

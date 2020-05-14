@@ -43,7 +43,6 @@ public class AboutActivity extends Activity {
             }
         });
 
-
         mAdView = (AdView) findViewById(R.id.ad_about);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("EE90BD2A7578BC19014DE8617761F10B") //Samsung Galaxy Note
@@ -53,12 +52,8 @@ public class AboutActivity extends Activity {
                         //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build(); //mAdView.loadAd(adRequest);
 
-
         // Start loading the ad in the background.
         mAdView.loadAd(adRequest);
-
-
-
     }
 
 //    private void showAbout() {

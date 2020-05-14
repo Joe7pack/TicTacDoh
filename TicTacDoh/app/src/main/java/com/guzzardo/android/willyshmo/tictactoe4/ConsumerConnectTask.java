@@ -47,8 +47,8 @@ public class ConsumerConnectTask extends AsyncTask<Object, Void, Void> {
 				connectionFactory.setUsername(userName);
 				connectionFactory.setPassword(password);
 				connectionFactory.setVirtualHost(virtualHost);
-				//int portNumber = Integer.parseInt(mResources.getString(R.string.RabbitMQPortNumber));
-				//connectionFactory.setPort(portNumber);
+				int portNumber = Integer.parseInt(port);
+				connectionFactory.setPort(portNumber);
 				//TODO - need to determine the default connection timeout
 //				connectionFactory.setConnectionTimeout(5000);
 				connectionFactory.setConnectionTimeout(ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT); //wait forever

@@ -88,8 +88,6 @@
 		android:layout_below="@id/settings_dialog"
 		/>
 
-
-
 	<TextView
 		android:id="@+id/status_text"
 		android:layout_width="wrap_content"

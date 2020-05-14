@@ -3,8 +3,7 @@ package com.guzzardo.android.willyshmo.tictactoe4;
 import android.location.Location;
 
 public class CurrentLocation {
-	
-	
+
 	private static final int TWO_MINUTES = 1000 * 60 * 2;
 
 	/** Determines whether one Location reading is better than the current Location fix
@@ -60,7 +59,4 @@ public class CurrentLocation {
 	    }
 	    return provider1.equals(provider2);
 	}	
-	
-	
-
 }

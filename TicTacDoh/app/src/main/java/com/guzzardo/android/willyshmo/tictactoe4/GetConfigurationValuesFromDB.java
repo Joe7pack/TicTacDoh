@@ -15,15 +15,16 @@ import java.util.List;
  */
 public class GetConfigurationValuesFromDB extends AsyncTask<Object, Void, String> {
 
-    private GetConfigurationActivity mCallerActivity;
+    //private GetConfigurationActivity mCallerActivity;
+    private SplashScreen mCallerActivity;
     private Context applicationContext;
     private static Resources mResources;
 
     @Override
     protected String doInBackground(Object... params) {
-
         String configValues = null;
-        mCallerActivity = (GetConfigurationActivity)params[0];
+        //mCallerActivity = (GetConfigurationActivity)params[0];
+        mCallerActivity = (SplashScreen) params[0];
         applicationContext = (Context)params[1];
         mResources = (Resources)params[2];
         String url = mResources.getString(R.string.domainName) + "/config/getConfigValues";
@@ -52,8 +53,7 @@ public class GetConfigurationValuesFromDB extends AsyncTask<Object, Void, String
                 WillyShmoApplication.setConfigMap(key, value);
             }
 
-            String rabbitMQIpAddress = WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
-            String rabbitMQPassworkd = WillyShmoApplication.getConfigMap("RabbitMQPassword");
+            mCallerActivity.setAsyncMessage();
 
         } catch (Exception e) {
             e.printStackTrace();

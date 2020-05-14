@@ -98,8 +98,10 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
     }
     
   	private static void setUpMessageConsumer(RabbitMQMessageConsumer rabbitMQMessageConsumer, final String qNameQualifier, final RabbitMQResponseHandler rabbitMQResponseHandler) { 
-  		String hostName = mResources.getString(R.string.RabbitMQHostName);
-  		String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + qNameQualifier + "-" + mPlayer1Id;
+  		//String hostName = mResources.getString(R.string.RabbitMQHostName);
+        String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+        String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+  		String qName = queuePrefix + "-" + qNameQualifier + "-" + mPlayer1Id;
   		new ConsumerConnectTask().execute(hostName, rabbitMQMessageConsumer, qName, mPlayersOnlineActivity, mResources, "fromPlayersOnlineActivity");
   		writeToLog("PlayersOnlineActivity", qNameQualifier +" message consumer listening on queue: " + qName);		
 		
@@ -277,9 +279,11 @@ public class PlayersOnlineActivity extends Activity implements ToastMessage {
         public void onListItemClick(ListView l, View v, int position, long id) {
         	//mWaitingForOpponent = false;
             setUpClientAndServer(position);
-            
-   			String hostName = mResources.getString(R.string.RabbitMQHostName);
-   			String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + "startGame"  + "-" +  mUserIds[position];
+
+            String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+   			//String hostName = mResources.getString(R.string.RabbitMQHostName);
+            String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+   			String qName = queuePrefix + "-" + "startGame"  + "-" +  mUserIds[position];
    			
    			String messageToOpponent = "letsPlay," + mPlayer1Name + ","  + mPlayer1Id; //mUserIds[position];
    			new SendMessageToRabbitMQTask().execute(hostName, qName, null, messageToOpponent, mPlayersOnlineActivity, mResources);  

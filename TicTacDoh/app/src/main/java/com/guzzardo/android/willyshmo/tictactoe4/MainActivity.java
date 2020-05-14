@@ -58,18 +58,6 @@ import com.google.firebase.appindexing.builders.Indexables;
 
 import java.util.ArrayList;
 
-//import com.google.android.gms.appindexing.Action;
-//import com.google.android.gms.appindexing.AppIndex;
-//import com.google.android.gms.common.api.GoogleApiClient;
-//import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-//import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-
-
-//import com.google.ads.AdRequest;
-//import com.google.android.gms.ads;
-//import com.google.android.gms.common.GooglePlayServicesClient;
-
-
 public class MainActivity extends Activity implements ToastMessage { //--, ConnectionCallbacks,
         //OnConnectionFailedListener {
     private String mPlayer1Name, mPlayer2Name;
@@ -83,7 +71,6 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
     //private static GoogleApiClient mGoogleApiClient;
     //private LocationRequest mLocationRequest;
 
-
     private String mText = "Joes text here";
     private String mUrl = "Joes url here";
 
@@ -92,8 +79,6 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     //private GoogleApiClient client;
-
-
 
     private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt6bYx4PqPNnRxsW9DuBAOarpGA6ds7v866szk3e28yIF5LjV/EValnRMLsRylX8FP+BEYeGZvB6THbiQ5Gm7H8i+S2tUv6sngc894hBWZnQKAmwrwgl0Zm+vtYo8fnI6jppIxX4A9+4TrzW+Onl4LeW3kafJ9nIa3P73xSLhtFoxbGjBlEVhUQDVkRl27RXC5LuyULWzsYaUOCI9Yyf06DeDlahl2SwkRoTyB0+LdYsmp0fmw49OsW6P4FkLKvo3UGl75EZyTm3vd8oze4NXNy9GiSxpfD12jhtToKDub/qd7EMJrFadUkuGoTg/qQtmDk4YVoWJvLb26KcUH51PdQIDAQAB";
 
@@ -108,14 +93,11 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
     private TextView mStatusText;
     private Button mCheckLicenseButton;
 
-
     private LicenseCheckerCallback mLicenseCheckerCallback;
     private LicenseChecker mChecker;
 
-
     // A handler on the UI thread.
     private Handler mHandler;
-
 
     @Override
     public void onStart() {
@@ -147,21 +129,18 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
         //see: https://firebase.google.com/docs/app-indexing/android/personal-content
         ArrayList<Indexable> indexableNotes = new ArrayList<>();
 
-                   Indexable noteToIndex = Indexables.noteDigitalDocumentBuilder()
-                        .setName("Joes name Note")
-                        .setText("Joes text here")
-                        .setUrl("joe.guzzardo.com")
-                        .build();
+        Indexable noteToIndex = Indexables.noteDigitalDocumentBuilder()
+            .setName("Joes name Note")
+            .setText("Joes text here")
+            .setUrl("joe.guzzardo.com")
+            .build();
 
-                indexableNotes.add(noteToIndex);
-
-
-          Indexable[] notesArr = new Indexable[indexableNotes.size()];
-         notesArr = indexableNotes.toArray(notesArr);
+        indexableNotes.add(noteToIndex);
+        Indexable[] notesArr = new Indexable[indexableNotes.size()];
+        notesArr = indexableNotes.toArray(notesArr);
 
         FirebaseAppIndex.getInstance().update(notesArr);
         FirebaseUserActions.getInstance().start(getAction());
-
     }
 
     // After
@@ -169,30 +148,11 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
         return Actions.newView(mText, mUrl);
     }
 
-
     @Override
     public void onStop() {
         FirebaseUserActions.getInstance().end(getAction());
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        /*
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.guzzardo.android.willyshmo.tictactoe4/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-        */
     }
-
 
     @Override
     public void onDestroy() {
@@ -213,15 +173,6 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-
-        /*
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        */
 
         setContentView(R.layout.main);
 //        mResources = getResources();
@@ -271,11 +222,7 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
                     }
                 });
 
-
-
         mStatusText = (TextView) findViewById(R.id.status_text);
-
-
 
         mCheckLicenseButton = (Button) findViewById(R.id.check_license_button);
         mCheckLicenseButton.setOnClickListener(new OnClickListener() {
@@ -314,10 +261,8 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
                 //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build(); //mAdView.loadAd(adRequest);
 
-
         // Start loading the ad in the background.
         mAdView.loadAd(adRequest);
-
 
         //adRequest.addTestDevice(AdRequest.TEST_EMULATOR);             // Android emulator
         //adRequest.addTestDevice("5F310740585B99B1179370AC1B4490C4"); // My T-Mobile G1 Test Phone
@@ -454,10 +399,7 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
         } catch (SecurityException se) {
             sendToastMessage("security exception: "+ se.getMessage());
         }
-
-
         //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-
     }
 
     /*
@@ -540,12 +482,9 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
         }
     };
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
-
-
 
     protected Dialog onCreateDialog(int id) {
         final boolean bRetry = id == 1;
@@ -571,17 +510,12 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
                 }).create();
     }
 
-
-
-
     private void doCheck() {
         mCheckLicenseButton.setEnabled(false);
         setProgressBarIndeterminateVisibility(true);
         mStatusText.setText(R.string.checking_license);
         mChecker.checkAccess(mLicenseCheckerCallback);
     }
-
-
 
     private void displayResult(final String result) {
         mHandler.post(new Runnable() {
@@ -602,8 +536,6 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
             }
         });
     }
-
-
 
     private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
         public void allow(int policyReason) {
@@ -646,6 +578,5 @@ public class MainActivity extends Activity implements ToastMessage { //--, Conne
             displayResult(result);
         }
     }
-
 
 }

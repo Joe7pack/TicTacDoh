@@ -45,7 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -165,6 +165,8 @@ public class GameActivity extends Activity implements ToastMessage {
 	
 	private String mServerHasOpponent;
 //	private boolean mGameStartedFromPlayerList;
+    private static String mHostName;
+    private static String mQueuePrefix;
 	
     public interface PrizeValue {
     	static final int SHMOGRANDPRIZE = 4; //player wins with a Shmo and shmo card was placed on prize card
@@ -206,6 +208,9 @@ public class GameActivity extends Activity implements ToastMessage {
         mSoundMode = settings.getBoolean(GameActivity.SOUND_MODE, false);
         
         mGameView.setViewDisabled(false);
+
+        mHostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+        mQueuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
     }
     
 	private ProgressDialog showHostWaitDialog() {
@@ -222,12 +227,13 @@ public class GameActivity extends Activity implements ToastMessage {
 	}
 
 	private ProgressDialog showClientWaitDialog() {
-		return ProgressDialog.show(GameActivity.this, "Connecting...", "to " + mPlayer2Name, true, true,
-				new DialogInterface.OnCancelListener() {
-			public void onCancel(DialogInterface dialog) {
-				GameActivity.this.finish();
-			}
-		});
+        final ProgressDialog show = ProgressDialog.show(GameActivity.this, "Connecting...", "to " + mPlayer2Name, true, true,
+                new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                        GameActivity.this.finish();
+                    }
+                });
+        return show;
 	}
 
     @Override
@@ -353,7 +359,7 @@ public class GameActivity extends Activity implements ToastMessage {
     
     private class MyButtonListener implements OnClickListener {
     	
-    	public AlertDialog showChooseTokenDialog() {
+    	AlertDialog showChooseTokenDialog() {
             return new AlertDialog.Builder(GameActivity.this)
             .setIcon(R.drawable.willy_shmo_small_icon)
             .setTitle(R.string.alert_dialog_starting_token_value)
@@ -522,7 +528,7 @@ public class GameActivity extends Activity implements ToastMessage {
     }   
     
     private void saveHumanWinner(int winningPositionOnBoard, int positionStatus) {
-    	humanWinningHashMap.put(Integer.valueOf(winningPositionOnBoard), Integer.valueOf(positionStatus));
+    	humanWinningHashMap.put(winningPositionOnBoard, positionStatus);
     	
     	//second value indicates position is available for use after comparing against other 
     	//entries in this map
@@ -572,7 +578,7 @@ public class GameActivity extends Activity implements ToastMessage {
 			int trialBoardSpaceSelected3 = -1;  
 			
 			for (int x = 0; x < availableValues.length; x++) {
-				if (availableValues[x] == true) {
+				if (availableValues[x]) {
 					availableSpaceCount++;
 					if (trialBoardSpaceSelected1 == -1) {
 						trialBoardSpaceSelected1 = x;
@@ -601,7 +607,7 @@ public class GameActivity extends Activity implements ToastMessage {
         			tokenChoice = mPlayer2TokenChoice;
         		}
                 for (int x = 0; x < availableValues.length; x++) {
-                	if (availableValues[x] == true) {
+                	if (availableValues[x]) {
                     	int[] testBoard = new int[GameView.BoardSpaceValues.BOARDSIZE];
                     	//copy normalizedBoard to testBoard
                         for (int y = 0; y < testBoard.length; y++) {
@@ -632,7 +638,7 @@ public class GameActivity extends Activity implements ToastMessage {
             	if (tokenChoice > -1) {
 //            		int computerBlockingMove = -1;
             		for (int x = 0; x < availableValues.length; x++) {
-            			if (availableValues[x] == true) {
+            			if (availableValues[x]) {
             				int[] testBoard = new int[GameView.BoardSpaceValues.BOARDSIZE];
             				//copy normalizedBoard to testBoard
             				for (int y = 0; y < testBoard.length; y++) {
@@ -664,13 +670,13 @@ public class GameActivity extends Activity implements ToastMessage {
                				int winningPosition  = (Integer)it.next();
 //               				System.out.println("winning position: "+winningPosition);
                				int[] testBoard = new int[GameView.BoardSpaceValues.BOARDSIZE];
-        					
+
                				for (int y = 0; y < testBoard.length; y++) {
                					testBoard[y] = normalizedBoardPlayer1[y];
                				}
-               				testBoard[winningPosition] = mPlayer2TokenChoice; 
-               				mGameView.setAvailableMoves(winningPosition, testBoard, testAvailableValues); 
-                			
+               				testBoard[winningPosition] = mPlayer2TokenChoice;
+               				mGameView.setAvailableMoves(winningPosition, testBoard, testAvailableValues);
+
                				Iterator<Integer> it2 = humanWinningHashMap.keySet().iterator();
                				while(it2.hasNext()) {
                					int testMove = (Integer)it2.next();
@@ -680,7 +686,7 @@ public class GameActivity extends Activity implements ToastMessage {
                					int spaceOkToUse = (Integer)humanWinningHashMap.get(testMove);
 //                   				System.out.println("testing "+testMove+ " against winning position: "+ winningPosition);
                					// testMove = a winning move human
-               					if (testAvailableValues[testMove] == true) {
+               					if (testAvailableValues[testMove]) {
 //               						computerBlockingMove = winningPosition;
 //               						break;
           							saveHumanWinner(testMove, 0); // space cannot be used
@@ -691,7 +697,7 @@ public class GameActivity extends Activity implements ToastMessage {
 //                					System.out.println("reset value at "+testMove+ " to ok to use for "+ winningPosition);
                					}
                				}
-               			}  
+               			}
                			Iterator<Integer> it3 = humanWinningHashMap.keySet().iterator();
                			while(it3.hasNext()) {   
                				int computerBlockingMove = (Integer)it3.next();
@@ -715,7 +721,7 @@ public class GameActivity extends Activity implements ToastMessage {
                 	
             	if (tokenChoice > -1) {
             		for (int x = 0; x < availableValues.length; x++) {
-            			if (availableValues[x] == true) {
+            			if (availableValues[x]) {
             				int[] testBoard = new int[GameView.BoardSpaceValues.BOARDSIZE];
             				//copy normalizedBoard to testBoard
             				for (int y = 0; y < testBoard.length; y++) {
@@ -739,7 +745,7 @@ public class GameActivity extends Activity implements ToastMessage {
                         					testBoard2[y] = testBoard[y];
                         				}
                     					//set available moves for new test board
-                    					mGameView.setAvailableMoves(boardSpaceSelected2, testBoard2, testAvailableValues); 
+                    					mGameView.setAvailableMoves(boardSpaceSelected2, testBoard2, testAvailableValues);
             							if (testAvailableValues[z] == true && z != boardSpaceSelected2) {
             								testBoard2[z] = mPlayer1TokenChoice; 
             								int[] winnerFound2 = checkWinningPosition(testBoard2);
@@ -818,7 +824,7 @@ public class GameActivity extends Activity implements ToastMessage {
     						for (int y = 0; y < testBoard.length; y++) {
     							testBoard[y] = normalizedBoardPlayer1[y];
     						}
-    						if (availableValues[x] == true) {
+    						if (availableValues[x]) {
     							testBoard[x] = mPlayer1TokenChoice;
     							int[] winnerFound = checkWinningPosition(testBoard);
     							if (winnerFound[0] > -1 || winnerFound[1] > -1 || winnerFound[2] > -1) {
@@ -846,7 +852,7 @@ public class GameActivity extends Activity implements ToastMessage {
 							tokenSelected = mGameView.selectLastComputerToken(); //no choice here
 						}
     					for (int x = 0; x < availableValues.length; x++) {
-    						if (availableValues[x] == true) {
+    						if (availableValues[x]) {
     							boardSpaceSelected = x;
     							break;
     						}
@@ -862,7 +868,7 @@ public class GameActivity extends Activity implements ToastMessage {
     						for (int y = 0; y < testBoard.length; y++) {
     							testBoard[y] = normalizedBoardPlayer2[y];
     						}
-    						if (availableValues[x] == true) {
+    						if (availableValues[x]) {
     							testBoard[x] = mPlayer1TokenChoice;
     							int[] winnerFound = checkWinningPosition(testBoard);
     							if (winnerFound[0] == -1 && winnerFound[1] == -1 && winnerFound[2] == -1) {
@@ -875,7 +881,7 @@ public class GameActivity extends Activity implements ToastMessage {
     					if (tokenSelected == -1) {
     						tokenSelected = tokenChoice;
     						for (int x = 0; x < availableValues.length; x++) {
-    							if (availableValues[x] == true) {
+    							if (availableValues[x]) {
     								boardSpaceSelected = x;
     								break;
     							}
@@ -948,7 +954,7 @@ public class GameActivity extends Activity implements ToastMessage {
         		
         		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&playingNow=true&opponentId="
     				+ mPlayer2Id + "&userName=";
-        		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, GameActivity.this, resources, Boolean.valueOf(false));    
+        		new SendMessageToWillyShmoServer().execute(urlData, mPlayer1Name, GameActivity.this, resources, Boolean.FALSE);
         		
                 mClientWaitDialog.dismiss();
                 mClientWaitDialog = null;
@@ -1698,7 +1704,7 @@ public class GameActivity extends Activity implements ToastMessage {
     
     private String editScore(int score) {
     	DecimalFormat formatter = new DecimalFormat("0000");
-    	StringBuffer formatScore = new StringBuffer(formatter.format(score));
+    	StringBuilder formatScore = new StringBuilder(formatter.format(score));
 
     	for (int x = 0; x < formatScore.length(); x++) {
     		String testString = formatScore.substring(x, x+1);
@@ -1795,7 +1801,7 @@ public class GameActivity extends Activity implements ToastMessage {
         editor.putInt(GameActivity.PLAYER1_SCORE, mPlayer1Score);
         editor.putInt(GameActivity.PLAYER2_SCORE, mPlayer2Score);
         editor.putInt(GameActivity.WILLY_SCORE, mWillyScore);
-        editor.commit();          
+        editor.apply();
     }
     
     @Override
@@ -1851,7 +1857,7 @@ public class GameActivity extends Activity implements ToastMessage {
             	while (mServerRunning) {
                     if (mRabbitMQServerResponseHandler.getRabbitMQResponse() != null) {
                     	writeToLog("ServerThread", "Retrieving command: " + mRabbitMQServerResponseHandler.getRabbitMQResponse()); 
-                    	if (mRabbitMQServerResponseHandler.getRabbitMQResponse().indexOf("tokenList") > -1) {
+                    	if (mRabbitMQServerResponseHandler.getRabbitMQResponse().contains("tokenList")) {
                     		getGameSetUpFromClient(mRabbitMQServerResponseHandler.getRabbitMQResponse());
                     		mHandler.sendEmptyMessage(DISMISS_WAIT_FOR_NEW_GAME_FROM_CLIENT);
                     		mHandler.sendEmptyMessage(ACCEPT_INCOMING_GAME_REQUEST_FROM_CLIENT); 
@@ -1871,9 +1877,11 @@ public class GameActivity extends Activity implements ToastMessage {
                     
                     if (mMessageToClient != null) {
                     	writeToLog("ServerThread", "Server about to respond to client: "+mMessageToClient); 
-               			String hostName = resources.getString(R.string.RabbitMQHostName);
-               			String qName = resources.getString(R.string.RabbitMQQueuePrefix) + "-" + "client"  + "-" + mPlayer2Id;
-               			new SendMessageToRabbitMQTask().execute(hostName, qName, null, mMessageToClient, GameActivity.this, resources);  
+               			//String hostName = resources.getString(R.string.RabbitMQHostName);
+                        //String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+                        //String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+               			String qName = mQueuePrefix + "-" + "client"  + "-" + mPlayer2Id;
+               			new SendMessageToRabbitMQTask().execute(mHostName, qName, null, mMessageToClient, GameActivity.this, resources);
                			writeToLog("ServerThread", "Server responded to client completed: "+mMessageToClient + " queue: " + qName); 
                         if (mMessageToClient.startsWith("leftGame") || mMessageToClient.startsWith("noPlay")) {
                      		mServerRunning = false;
@@ -1902,7 +1910,7 @@ public class GameActivity extends Activity implements ToastMessage {
 //        		}
 
         		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&onlineNow=false&playingNow=false&opponentId=0";
-    			new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(false));
+    			new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.FALSE);
             	new DisposeRabbitMQTask().execute(mMessageServerConsumer, resources, GameActivity.this);      
             	writeToLog("ServerThread", "server finished");
 //            	finish(); 
@@ -1986,9 +1994,11 @@ public class GameActivity extends Activity implements ToastMessage {
 
         		while (mClientRunning) {
         			if (mMessageToServer != null) {
-        				String hostName = resources.getString(R.string.RabbitMQHostName);
-        				String qName = resources.getString(R.string.RabbitMQQueuePrefix) + "-" + "server"  + "-" + mPlayer2Id;
-        				new SendMessageToRabbitMQTask().execute(hostName, qName, null, mMessageToServer, GameActivity.this, resources);
+                        //String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+                        //String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+        				//String hostName = resources.getString(R.string.RabbitMQHostName);
+        				String qName = mQueuePrefix + "-" + "server"  + "-" + mPlayer2Id;
+        				new SendMessageToRabbitMQTask().execute(mHostName, qName, null, mMessageToServer, GameActivity.this, resources);
         				writeToLog("ClientThread", "Sending command: " + mMessageToServer + " queue: " + qName); 
                         if (mMessageToServer.startsWith("leftGame")) {
                         	mClientRunning = false;
@@ -2036,7 +2046,7 @@ public class GameActivity extends Activity implements ToastMessage {
 //        		}
 
         		String urlData = "/gamePlayer/update/?id=" + mPlayer1Id + "&playingNow=false&onlineNow=false&opponentId=0";
-				new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(false));
+				new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.FALSE);
         		mPlayer1NetworkScore = mPlayer2NetworkScore = 0;
         		mClientRunning = false;
         		mClientThread = null;
@@ -2125,7 +2135,7 @@ public class GameActivity extends Activity implements ToastMessage {
 		}
 
         //TODO - replace GameActivity.this with a static reference to getContext() set at class instantiation
-		new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(!start));
+		new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, !start);
     } 
 
     private Handler newNetworkGameHandler = new Handler() {
@@ -2238,7 +2248,7 @@ public class GameActivity extends Activity implements ToastMessage {
     
     private void updateWebServerScore() {
 		String urlData = "/gamePlayer/updateGamesPlayed/?id=" + mPlayer1Id + "&score="+mPlayer1NetworkScore;
-		new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.valueOf(false));
+		new SendMessageToWillyShmoServer().execute(urlData, null, GameActivity.this, resources, Boolean.FALSE);
     }
     
     public static boolean getMoveModeTouch() {
@@ -2299,31 +2309,29 @@ public class GameActivity extends Activity implements ToastMessage {
 		}
 	}
 
-	private void setUpMessageConsumer(RabbitMQMessageConsumer rabbitMQMessageConsumer, final String qNameQualifier, final RabbitMQResponseHandler rabbitMQResponseHandler) { 
-		String hostName = resources.getString(R.string.RabbitMQHostName);
-		String qName = resources.getString(R.string.RabbitMQQueuePrefix) + "-" + qNameQualifier + "-" + mPlayer1Id;
-		new ConsumerConnectTask().execute(hostName, rabbitMQMessageConsumer, qName, GameActivity.this, resources, "GameActivity");
+	private void setUpMessageConsumer(RabbitMQMessageConsumer rabbitMQMessageConsumer, final String qNameQualifier, final RabbitMQResponseHandler rabbitMQResponseHandler) {
+        //String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+        //String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+		//String hostName = resources.getString(R.string.RabbitMQHostName);
+		String qName = mQueuePrefix + "-" + qNameQualifier + "-" + mPlayer1Id;
+		new ConsumerConnectTask().execute(mHostName, rabbitMQMessageConsumer, qName, GameActivity.this, resources, "GameActivity");
 		writeToLog("GameActivity", qNameQualifier +" message consumer listening on queue: " + qName);		
 		
 		// register for messages
 		rabbitMQMessageConsumer.setOnReceiveMessageHandler(new RabbitMQMessageConsumer.OnReceiveMessageHandler() {
 			public void onReceiveMessage(byte[] message) {
 				String text = "";
-				try {
-					text = new String(message, "UTF8");
-				} catch (UnsupportedEncodingException e) {
-					sendToastMessage(e.getMessage());
-				}
-				rabbitMQResponseHandler.setRabbitMQResponse(text);
+                text = new String(message, StandardCharsets.UTF_8);
+                rabbitMQResponseHandler.setRabbitMQResponse(text);
 				writeToLog("GameActivity", qNameQualifier + " OnReceiveMessageHandler received message: " + text);	
 			}
 		});
 	}
-	
+
     public void sendMessageToServerHost(String message) {
-		String hostName = resources.getString(R.string.RabbitMQHostName);
-		String qName = resources.getString(R.string.RabbitMQQueuePrefix) + "-" + "server"  + "-" + mPlayer2Id;
-		new SendMessageToRabbitMQTask().execute(hostName, qName, null, message, GameActivity.this, resources); 
+		//String hostName = resources.getString(R.string.RabbitMQHostName);
+		String qName = mQueuePrefix + "-" + "server"  + "-" + mPlayer2Id;
+		new SendMessageToRabbitMQTask().execute(mHostName, qName, null, message, GameActivity.this, resources);
 		writeToLog("GameActivity", "sendMessageToServerHost: " + message + " queue: " + qName);		
     }
 

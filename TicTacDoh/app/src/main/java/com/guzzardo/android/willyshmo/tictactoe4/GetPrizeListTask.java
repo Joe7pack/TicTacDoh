@@ -1,13 +1,5 @@
 package com.guzzardo.android.willyshmo.tictactoe4;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,6 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
 
 import static com.guzzardo.android.willyshmo.tictactoe4.WillyShmoApplication.getWillyShmoApplicationContext;
 
@@ -55,8 +55,7 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
 		try {
 			prizesAvailable = WebServerInterface.converseWithWebServer(url, null, mCallerActivity, mResources);
 		} catch (Exception e) { 
-//			System.out.println(e.getMessage());
-			writeToLog("GetPrizeListTask", "doInBackground: " + e.getMessage());			
+			writeToLog("GetPrizeListTask", "doInBackground: " + e.getMessage());
 			mCallerActivity.sendToastMessage("Playing without host server");			
 		}
 		writeToLog("GetPrizeListTask", "WebServerInterfaceUsersOnlineTask doInBackground called usersOnline: " + prizesAvailable);  		
@@ -68,22 +67,11 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
 			writeToLog("GetPrizeListTask", "onPostExecute called usersOnline: " + prizesAvailable);
 			
 			if (mStartMainActivity) {
-				//mCallerActivity.startActivity(new Intent("MainActivity"));
-
-                Context appContext = WillyShmoApplication.getWillyShmoApplicationContext();
-
-				//Intent myIntent = new Intent();
-				//myIntent.setClass()
-				//mCallerActivity.startActivity(myIntent);
 				Context willyShmoApplicationContext = getWillyShmoApplicationContext();
 				Intent myIntent = new Intent(willyShmoApplicationContext, MainActivity.class);
 				mCallerActivity.startActivity(myIntent);
-
-				//mCallerActivity.startActivity("MainActivity");
-
-
-
 				mCallerActivity.finish();
+
 			}
 			
 			if (prizesAvailable != null && prizesAvailable.length() > 20) {
@@ -93,12 +81,7 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
 			} else {
 				WillyShmoApplication.setPrizeNames(null);
 			}
-//			if (mStartMainActivity) {
-//				mCallerActivity.finish();
-//				mCallerActivity.startActivity(new Intent("MainActivity"));
-//			}
 		} catch (Exception e) {
-//			System.out.println(e.getMessage());
 			writeToLog("GetPrizeListTask", "onPostExecute exception called " + e.getMessage());
 			mCallerActivity.sendToastMessage(e.getMessage());			
     	}
@@ -147,9 +130,6 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
     	
     	try {
     		String convertedPrizesAvailable = convertToArray(new StringBuilder(prizesAvailable));
-    		//String endOfString = convertedPrizesAvailable.substring(convertedPrizesAvailable.length() - 60 );
-    		//System.out.println("end of string: " + endOfString );
-    	
     		JSONObject jsonObject = new JSONObject(convertedPrizesAvailable);
     		JSONArray prizeArray = jsonObject.getJSONArray("PrizeList"); 
     		for ( int x = 0; x < prizeArray.length(); x++) {
@@ -159,9 +139,7 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
     			String prizeName = prize.getString("name");
     			String image = prize.getString("image");
     			String prizeUrl = prize.getString("url");
-    			
     			String location = prize.getString("location");
-    			
     			int imageWidth = prize.getInt("imageWidth");
     			int imageHeight = prize.getInt("imageHeight");
         		String [] prizeArrayValues = new String[7];
@@ -193,21 +171,17 @@ public class GetPrizeListTask extends AsyncTask<Object, Void, String> {
 		inputString = inputString.replace(start-1, end, "[");
 		startValue = end;
 		
-//    	for (int x = end; x < inputString.length(); x += startValue) {
     	for (int x = end; x < inputString.length(); x++) {
-		
     		start = inputString.indexOf(replaceString,startValue);
     		if (start > -1) {
     			end = inputString.indexOf("{", start);
     			inputString = inputString.replace(start, end, "");
     			startValue = end;
-    			//System.out.println("replaced value: " + inputString.substring(start-10, end+10));
     		} else {
     			break;
     		}
     	}    	
     	end = inputString.length()-5;
-    	
     	start = inputString.indexOf("}}}",end);
     	inputString = inputString.replace(start, inputString.length()-1, "}]}");
     	return inputString.toString();

@@ -32,18 +32,6 @@ public class AcceptGameDialog extends DialogFragment implements ToastMessage {
 	private static Resources mResources;
 	public static ErrorHandler errorHandler;	
 
-    /*
-	public AcceptGameDialog(String opposingPlayerName, String opposingPlayerId, String playerName, Integer playerId, Context applicationContext, Resources resources) {
-        super();
-		mOpposingPlayerName = opposingPlayerName;
-		mOpposingPlayerId = opposingPlayerId;
-		mApplicationContext = applicationContext;
-		mPlayerName = playerName;
-		mPlayerId = playerId;
-		mResources = resources;
-	}
-	*/
-
     public AcceptGameDialog() {
         super();
     }
@@ -90,9 +78,12 @@ public class AcceptGameDialog extends DialogFragment implements ToastMessage {
     }
     
     private void rejectGame() { //this is what the server side will see
-		String hostName = mResources.getString(R.string.RabbitMQHostName);
+        String hostName = (String)WillyShmoApplication.getConfigMap("RabbitMQIpAddress");
+        String queuePrefix = (String)WillyShmoApplication.getConfigMap("RabbitMQQueuePrefix");
+		//String hostName = mResources.getString(R.string.RabbitMQHostName);
 //		String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + "server"  + "-" + mOpposingPlayerId;
-		String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + "client"  + "-" + mOpposingPlayerId;
+		//String qName = mResources.getString(R.string.RabbitMQQueuePrefix) + "-" + "client"  + "-" + mOpposingPlayerId;
+        String qName = queuePrefix + "-" + "client"  + "-" + mOpposingPlayerId;
 		
 		String messageToOpponent = "noPlay," + mPlayerName + ","  + mPlayerId;
 		new SendMessageToRabbitMQTask().execute(hostName, qName, null, messageToOpponent, this, mResources);
